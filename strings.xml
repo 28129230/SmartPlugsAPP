@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SmartPlugsApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="BluetoothNotAvailable">蓝牙设备不可用</string>
+    <string name="DeviceNotFound">智能插座没有找到</string>
+    <string name="DeviceName">PLUGS</string>
+
+</resources>
