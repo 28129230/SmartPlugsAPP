@@ -3,6 +3,7 @@ package nuzar.smartplugsapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.bluetooth.BluetoothAdapter;
@@ -12,7 +13,25 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     private BluetoothAdapter mBluetoothAdapter = null;
-    private PlugsControl mPlugsControl = null;
+    private DeviceControl mDeviceControl = null;
+    public static final int MESSAGE_TOAST = 1;
+    public static final String TOAST = "toast";
+
+
+
+
+
+    private final Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case MESSAGE_TOAST:
+                Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),Toast.LENGTH_LONG).show();
+            }
+
+        }
+    };
+
 
 
 
@@ -37,9 +56,10 @@ public class MainActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        mPlugsControl = new PlugsControl(mHandler);
-        if(mPlugsControl.isEnable()){
-        mPlugsControl.connect();}
+        String deviceName = "PLUGS";
+        mDeviceControl = new DeviceControl(deviceName,mHandler);
+        if(mDeviceControl.isEnable()){
+        mDeviceControl.connect();}
         else {
             Toast.makeText(this,R.string.DeviceNotFound,Toast.LENGTH_LONG).show();
         }
@@ -49,7 +69,7 @@ public class MainActivity extends Activity {
     @Override
     public void onPause(){
         super.onPause();
-        mPlugsControl.stop();
+        mDeviceControl.stop();
     }
 
 
@@ -76,5 +96,5 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private final Handler mHandler = new Handler();
+
 }
